@@ -6,11 +6,12 @@ const initialState = {
   productList: [],
 };
 
+// ADD NEW PRODUCT
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
     const result = await axios.post(
-      "http://localhost:5000/api/admin/products/add",
+      "https://thelospollobackend.onrender.com/api/admin/products/add",
       formData,
       {
         headers: {
@@ -23,22 +24,24 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
+// FETCH ALL PRODUCTS
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async () => {
     const result = await axios.get(
-      "http://localhost:5000/api/admin/products/get"
+      "https://thelospollobackend.onrender.com/api/admin/products/get"
     );
 
     return result?.data;
   }
 );
 
+// EDIT PRODUCT
 export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `http://localhost:5000/api/admin/products/edit/${id}`,
+      `https://thelospollobackend.onrender.com/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -51,11 +54,12 @@ export const editProduct = createAsyncThunk(
   }
 );
 
+// DELETE PRODUCT
 export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:5000/api/admin/products/delete/${id}`
+      `https://thelospollobackend.onrender.com/api/admin/products/delete/${id}`
     );
 
     return result?.data;
@@ -75,10 +79,8 @@ const AdminProductsSlice = createSlice({
         state.isLoading = false;
         state.productList = action.payload.data;
         console.log("Fetched products:", action.payload.data);
-
-        
       })
-      .addCase(fetchAllProducts.rejected, (state, action) => {
+      .addCase(fetchAllProducts.rejected, (state) => {
         state.isLoading = false;
         state.productList = [];
       });

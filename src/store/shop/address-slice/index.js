@@ -6,11 +6,12 @@ const initialState = {
   addressList: [],
 };
 
+// ADD NEW ADDRESS
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAddress",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/address/add",
+      "https://thelospollobackend.onrender.com/api/shop/address/add",
       formData
     );
 
@@ -18,22 +19,24 @@ export const addNewAddress = createAsyncThunk(
   }
 );
 
+// FETCH ALL ADDRESSES
 export const fetchAllAddresses = createAsyncThunk(
   "/addresses/fetchAllAddresses",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/address/get/${userId}`
+      `https://thelospollobackend.onrender.com/api/shop/address/get/${userId}`
     );
 
     return response.data;
   }
 );
 
+// EDIT ADDRESS
 export const editaAddress = createAsyncThunk(
   "/addresses/editaAddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/shop/address/update/${userId}/${addressId}`,
+      `https://thelospollobackend.onrender.com/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
 
@@ -41,11 +44,12 @@ export const editaAddress = createAsyncThunk(
   }
 );
 
+// DELETE ADDRESS
 export const deleteAddress = createAsyncThunk(
   "/addresses/deleteAddress",
   async ({ userId, addressId }) => {
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/address/delete/${userId}/${addressId}`
+      `https://thelospollobackend.onrender.com/api/shop/address/delete/${userId}/${addressId}`
     );
 
     return response.data;
@@ -61,7 +65,7 @@ const addressSlice = createSlice({
       .addCase(addNewAddress.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addNewAddress.fulfilled, (state, action) => {
+      .addCase(addNewAddress.fulfilled, (state) => {
         state.isLoading = false;
       })
       .addCase(addNewAddress.rejected, (state) => {

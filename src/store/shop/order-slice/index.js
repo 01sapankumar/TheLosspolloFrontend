@@ -11,11 +11,12 @@ const initialState = {
   orderDetails: null,
 };
 
+// CREATE ORDER
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/order/create",
+      "https://thelospollobackend.onrender.com/api/shop/order/create",
       orderData
     );
 
@@ -23,11 +24,12 @@ export const createNewOrder = createAsyncThunk(
   }
 );
 
+// CAPTURE PAYMENT
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async ({ razorpay_payment_id, razorpay_order_id, razorpay_signature, orderId }) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/order/capture",
+      "https://thelospollobackend.onrender.com/api/shop/order/capture",
       {
         razorpay_payment_id,
         razorpay_order_id,
@@ -40,22 +42,24 @@ export const capturePayment = createAsyncThunk(
   }
 );
 
+// GET ALL ORDERS BY USER ID
 export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/list/${userId}`
+      `https://thelospollobackend.onrender.com/api/shop/order/list/${userId}`
     );
 
     return response.data;
   }
 );
 
+// GET ORDER DETAILS
 export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/order/details/${id}`
+      `https://thelospollobackend.onrender.com/api/shop/order/details/${id}`
     );
 
     return response.data;
@@ -78,7 +82,6 @@ const shoppingOrderSlice = createSlice({
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        // Razorpay-specific response
         state.razorpayOrderId = action.payload.razorpayOrderId;
         state.amount = action.payload.amount;
         state.currency = action.payload.currency;

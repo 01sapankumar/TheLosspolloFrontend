@@ -6,33 +6,36 @@ const initialState = {
   orderDetails: null,
 };
 
+// GET ALL ORDERS
 export const getAllOrdersForAdmin = createAsyncThunk(
   "/order/getAllOrdersForAdmin",
   async () => {
     const response = await axios.get(
-      `http://localhost:5000/api/admin/orders/get`
+      `https://thelospollobackend.onrender.com/api/admin/orders/get`
     );
 
     return response.data;
   }
 );
 
+// GET ORDER DETAILS
 export const getOrderDetailsForAdmin = createAsyncThunk(
   "/order/getOrderDetailsForAdmin",
   async (id) => {
     const response = await axios.get(
-      `http://localhost:5000/api/admin/orders/details/${id}`
+      `https://thelospollobackend.onrender.com/api/admin/orders/details/${id}`
     );
 
     return response.data;
   }
 );
 
+// UPDATE ORDER STATUS
 export const updateOrderStatus = createAsyncThunk(
   "/order/updateOrderStatus",
   async ({ id, orderStatus }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/admin/orders/update/${id}`,
+      `https://thelospollobackend.onrender.com/api/admin/orders/update/${id}`,
       {
         orderStatus,
       }
@@ -48,7 +51,6 @@ const adminOrderSlice = createSlice({
   reducers: {
     resetOrderDetails: (state) => {
       console.log("resetOrderDetails");
-
       state.orderDetails = null;
     },
   },
@@ -80,5 +82,4 @@ const adminOrderSlice = createSlice({
 });
 
 export const { resetOrderDetails } = adminOrderSlice.actions;
-
 export default adminOrderSlice.reducer;

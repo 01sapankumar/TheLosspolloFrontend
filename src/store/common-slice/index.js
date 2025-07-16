@@ -11,7 +11,7 @@ export const getFeatureImages = createAsyncThunk(
   "/order/getFeatureImages",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/common/feature/get"
+      "https://thelospollobackend.onrender.com/api/common/feature/get"
     );
     return response.data;
   }
@@ -22,7 +22,7 @@ export const addFeatureImage = createAsyncThunk(
   "/order/addFeatureImage",
   async (image) => {
     const response = await axios.post(
-      "http://localhost:5000/api/common/feature/add",
+      "https://thelospollobackend.onrender.com/api/common/feature/add",
       { image }
     );
     return response.data;
@@ -34,7 +34,7 @@ export const deleteFeatureImage = createAsyncThunk(
   "/order/deleteFeatureImage",
   async (id) => {
     const response = await axios.delete(
-      `http://localhost:5000/api/common/feature/delete/${id}`
+      `https://thelospollobackend.onrender.com/api/common/feature/delete/${id}`
     );
     return { id, ...response.data };
   }

@@ -7,6 +7,7 @@ const initialState = {
   productDetails: null,
 };
 
+// FETCH ALL FILTERED PRODUCTS
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async ({ filterParams, sortParams }) => {
@@ -18,7 +19,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
     });
 
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get?${query}`
+      `https://thelospollobackend.onrender.com/api/shop/products/get?${query}`
     );
 
     console.log(result);
@@ -27,11 +28,12 @@ export const fetchAllFilteredProducts = createAsyncThunk(
   }
 );
 
+// FETCH PRODUCT DETAILS
 export const fetchProductDetails = createAsyncThunk(
   "/products/fetchProductDetails",
   async (id) => {
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get/${id}`
+      `https://thelospollobackend.onrender.com/api/shop/products/get/${id}`
     );
 
     return result?.data;
@@ -48,25 +50,25 @@ const shoppingProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllFilteredProducts.pending, (state, action) => {
+      .addCase(fetchAllFilteredProducts.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.productList = action.payload.data;
       })
-      .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
+      .addCase(fetchAllFilteredProducts.rejected, (state) => {
         state.isLoading = false;
         state.productList = [];
       })
-      .addCase(fetchProductDetails.pending, (state, action) => {
+      .addCase(fetchProductDetails.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         state.productDetails = action.payload.data;
       })
-      .addCase(fetchProductDetails.rejected, (state, action) => {
+      .addCase(fetchProductDetails.rejected, (state) => {
         state.isLoading = false;
         state.productDetails = null;
       });
@@ -74,5 +76,4 @@ const shoppingProductSlice = createSlice({
 });
 
 export const { setProductDetails } = shoppingProductSlice.actions;
-
 export default shoppingProductSlice.reducer;

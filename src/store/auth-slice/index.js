@@ -6,12 +6,13 @@ const initialState = {
   isLoading: true,
   user: null,
 };
+
+// REGISTER
 export const registerUser = createAsyncThunk(
   "/auth/register",
-
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/register",
+      "https://thelospollobackend.onrender.com/api/auth/register",
       formData,
       {
         withCredentials: true,
@@ -22,13 +23,12 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-//login
+// LOGIN
 export const loginUser = createAsyncThunk(
   "/auth/login",
-
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/login",
+      "https://thelospollobackend.onrender.com/api/auth/login",
       formData,
       {
         withCredentials: true,
@@ -39,14 +39,12 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-//logout
-
+// LOGOUT
 export const logoutUser = createAsyncThunk(
   "/auth/logout",
-
   async () => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/logout",
+      "https://thelospollobackend.onrender.com/api/auth/logout",
       {},
       {
         withCredentials: true,
@@ -57,17 +55,16 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+// CHECK AUTH
 export const checkAuth = createAsyncThunk(
   "/auth/checkauth",
-
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/auth/check-auth",
+      "https://thelospollobackend.onrender.com/api/auth/check-auth",
       {
         withCredentials: true,
         headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
         },
       }
     );
@@ -76,15 +73,16 @@ export const checkAuth = createAsyncThunk(
   }
 );
 
-
+// SLICE
 const authSlice = createSlice({
-    name:'auth',
-    initialState,
-    reducers: {
+  name: "auth",
+  initialState,
+  reducers: {
     setUser: (state, action) => {},
   },
-   extraReducers: (builder) => {
+  extraReducers: (builder) => {
     builder
+      // Register
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -93,26 +91,30 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
       })
-         .addCase(loginUser.pending, (state) => {
+
+      // Login
+      .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-         console.log(action);
+        console.log(action);
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
       })
-       .addCase(checkAuth.pending, (state) => {
+
+      // Check Auth
+      .addCase(checkAuth.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
@@ -120,20 +122,20 @@ const authSlice = createSlice({
         state.user = action.payload.success ? action.payload.user : null;
         state.isAuthenticated = action.payload.success;
       })
-      .addCase(checkAuth.rejected, (state, action) => {
+      .addCase(checkAuth.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+
+      // Logout
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
       });
-      
-    },
-})
+  },
+});
 
 export const { setUser } = authSlice.actions;
 export default authSlice.reducer;
-
