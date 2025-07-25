@@ -58,8 +58,8 @@ function App() {
          <Route
   path="/"
   element={
-    <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-      <div /> {/* Dummy element; redirection handled inside CheckAuth */}
+    <CheckAuth isAuthenticated={isAuthenticated}
+     user={user} >
     </CheckAuth>
   }
 />
@@ -71,7 +71,6 @@ function App() {
           <Route path="login" element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
         </Route>
-
 
         <Route path='/admin' element = 
            { <CheckAuth isAuthenticated={isAuthenticated } user={user}>
